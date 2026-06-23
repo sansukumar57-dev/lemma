@@ -1,0 +1,18 @@
+/* generated using openapi-typescript-codegen -- do not edit */
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+/**
+ * Request model for the connector helper agent.
+ */
+export type ConnectorHelperAgentRequest = {
+    /**
+     * Connector IDs the agent may use while planning the goal.
+     */
+    app_names: Array<string>;
+    /**
+     * What the caller wants to achieve with one or more connectors.
+     */
+    goal: string;
+};
+
