@@ -56,6 +56,53 @@ def _port_in_use(port: int) -> bool:
         return sock.connect_ex(("127.0.0.1", port)) == 0
 
 
+def _print_next_steps(config) -> None:
+    """Post-install setup guidance: configure the backend env, then restart.
+
+    The LLM model key is required — agents won't run without one. The Composio
+    key is strongly recommended: it powers the app connectors / integrations.
+    Both are UPPER_SNAKE env vars that route to [backend.env] in config.toml.
+    """
+    overrides = store.env_overrides(config, "backend")
+    has_llm = bool(
+        overrides.get("LEMMA_ANTHROPIC_API_KEY") or overrides.get("LEMMA_OPENAI_API_KEY")
+    )
+    has_composio = bool(overrides.get("COMPOSIO_API_KEY"))
+    if has_llm and has_composio:
+        return
+    console.print("\n[bold]Finish setup — configure the backend env, then restart:[/bold]\n")
+    step = 1
+    if not has_llm:
+        console.print(
+            f"  {step}. Model provider  [red](required — agents won't run without one; "
+            "set the type + key together)[/red]"
+        )
+        console.print("       [dim]# Anthropic (Claude):[/dim]")
+        console.print("       lemma-stack config set LEMMA_DEFAULT_MODEL_TYPE anthropic_compat")
+        console.print("       lemma-stack config set LEMMA_ANTHROPIC_API_KEY sk-ant-...")
+        console.print(
+            "       [dim]# or any OpenAI-compatible provider (OpenAI, Fireworks, local, …):[/dim]"
+        )
+        console.print("       lemma-stack config set LEMMA_DEFAULT_MODEL_TYPE openai_compat")
+        console.print("       lemma-stack config set LEMMA_OPENAI_API_KEY <key>")
+        console.print("       lemma-stack config set LEMMA_OPENAI_BASE_URL https://api.openai.com/v1")
+        console.print("       lemma-stack config set LEMMA_OPENAI_DEFAULT_MODEL gpt-4o")
+        console.print("       lemma-stack config set LEMMA_OPENAI_MODEL_NAMES gpt-4o,gpt-4o-mini")
+        step += 1
+    if not has_composio:
+        console.print(
+            f"  {step}. Composio key   "
+            "[yellow](recommended — enables app connectors / integrations)[/yellow]"
+        )
+        console.print("       lemma-stack config set COMPOSIO_API_KEY <key>")
+        step += 1
+    console.print(f"  {step}. Apply changes: [bold]lemma-stack restart[/bold]")
+    console.print(
+        "\n  [dim]Stored under \\[backend.env] in ~/.lemma/local/config.toml "
+        "(edit directly with `lemma-stack config edit`).[/dim]"
+    )
+
+
 # --------------------------------------------------------------------------
 # install
 # --------------------------------------------------------------------------
@@ -79,14 +126,6 @@ def install(
         "--use-cli/--no-cli",
         help="Install the lemma CLI and register this stack as its active 'local' server.",
     ),
-    github_auth: Optional[bool] = typer.Option(
-        None,
-        "--github-auth/--no-github-auth",
-        help=(
-            "Use the system GitHub auth (gh CLI or GITHUB_TOKEN) for the release manifest "
-            "and ghcr.io image pulls. Default: auto-fallback when the repo is private."
-        ),
-    ),
     assume_yes: bool = typer.Option(False, "-y", "--yes", help="Answer yes to prompts."),
 ) -> None:
     """Install the Lemma stack: pick a runtime, pull a release, start everything."""
@@ -107,14 +146,6 @@ def install(
         key, _, value = pair.partition("=")
         store.set_value(config, key.strip(), value)
 
-    # 3. LLM key sanity (skippable; doctor re-checks)
-    overrides = store.env_overrides(config, "backend")
-    if not (overrides.get("LEMMA_OPENAI_API_KEY") or overrides.get("LEMMA_ANTHROPIC_API_KEY")):
-        warn(
-            "no LLM API key configured; agents will not work until you run\n"
-            "  lemma-stack config set LEMMA_OPENAI_API_KEY <key>   (or LEMMA_ANTHROPIC_API_KEY)"
-        )
-
     store.save(paths, config)
 
     # 4. port availability (only host-published ports can collide)
@@ -128,7 +159,7 @@ def install(
 
     # 5. release manifest
     manifest = orchestrate.resolve_manifest(
-        config, paths, manifest_path=manifest_path, channel=channel, github_auth=github_auth
+        config, paths, manifest_path=manifest_path, channel=channel
     )
     info(f"installing Lemma {manifest.version} via {provider}")
 
@@ -157,6 +188,12 @@ def install(
         info(f"  app:      {render.frontend_origin(config)}")
         info(f"  api:      {render.backend_origin(config)}")
         info(f"  api docs: {render.backend_origin(config)}/scalar")
+        info(
+            "  [dim]open the 127-0-0-1.sslip.io host above (it resolves to 127.0.0.1); "
+            "sign-in is scoped to it, so localhost / 127.0.0.1 won't authenticate[/dim]"
+        )
+
+    _print_next_steps(config)
 
 
 # --------------------------------------------------------------------------

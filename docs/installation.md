@@ -37,28 +37,59 @@ After install, the stack is running at:
 
 | Service | URL |
 |---------|-----|
-| Frontend | http://localhost:3711 |
-| Backend API | http://localhost:8711 |
-| API docs (Scalar) | http://localhost:8711/scalar |
+| Frontend | http://127-0-0-1.sslip.io:3711 |
+| Backend API | http://127-0-0-1.sslip.io:8711 |
+| API docs (Scalar) | http://127-0-0-1.sslip.io:8711/scalar |
+
+> **Use the `127-0-0-1.sslip.io` host, not `localhost` / `127.0.0.1`.** It's wildcard DNS that resolves to `127.0.0.1`, and sign-in cookies (and per-desk subdomains) are scoped to it — opening the app on `localhost` or `127.0.0.1` won't authenticate.
 
 Infrastructure (Postgres, Redis, SuperTokens, Kreuzberg) stays on a private container network — no host ports, no collisions with other projects.
 
 ### Configure
 
 Configuration lives in `~/.lemma/local/config.toml`. Bare UPPER_SNAKE keys route
-straight to the backend environment. The ones you usually need to set:
+straight to the backend environment.
+
+#### 1. A model provider — required (agents won't run without one)
+
+The system model profile is **provider-agnostic**: choose `anthropic_compat` or
+`openai_compat`, set the matching API key, and — for OpenAI-compatible — the base
+URL and the models to expose. Set them **together** so the profile resolves.
+
+**Anthropic (Claude):**
+
+```bash
+lemma-stack config set LEMMA_DEFAULT_MODEL_TYPE anthropic_compat
+lemma-stack config set LEMMA_ANTHROPIC_API_KEY sk-ant-...
+# optional — these default to claude-sonnet-4-5 / claude-haiku-4-5:
+lemma-stack config set LEMMA_ANTHROPIC_DEFAULT_MODEL claude-sonnet-4-5
+lemma-stack config set LEMMA_ANTHROPIC_MODEL_NAMES claude-sonnet-4-5,claude-haiku-4-5
+```
+
+**OpenAI-compatible (OpenAI, Fireworks, Together, a gateway, a local server):**
+
+```bash
+lemma-stack config set LEMMA_DEFAULT_MODEL_TYPE openai_compat
+lemma-stack config set LEMMA_OPENAI_API_KEY <key>
+lemma-stack config set LEMMA_OPENAI_BASE_URL https://api.openai.com/v1   # your provider's endpoint
+lemma-stack config set LEMMA_OPENAI_DEFAULT_MODEL gpt-4o                 # a model your key can use
+lemma-stack config set LEMMA_OPENAI_MODEL_NAMES gpt-4o,gpt-4o-mini       # models to expose in the picker
+```
+
+> Defaults are OpenAI/Anthropic, not any specific gateway — point `*_BASE_URL` and
+> `*_MODEL*` at whatever provider your key is for.
+
+#### 2. Other settings
 
 | Variable | What it's for |
 |----------|---------------|
-| `LEMMA_ANTHROPIC_API_KEY` | Anthropic-compatible key (or any Anthropic-compatible endpoint) so pod agents can run. |
-| `LEMMA_OPENAI_API_KEY` | OpenAI-compatible key. Also backs Fireworks embeddings/reranking when those are enabled. |
+| `COMPOSIO_API_KEY` | **Recommended.** Powers the app connectors / integrations (Gmail, Slack, Notion, …). Pair with `COMPOSIO_WEBHOOK_SECRET` if you wire up triggers. |
 | `SECRET_ENCRYPTION_KEY` | Fernet key for secrets at rest (connector creds, webhook secrets). In local/testing a dev seed is used; **set this for any real data**. Generate one: `python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"`. Falls back to the legacy `CONNECTOR_ENCRYPTION_KEY`. |
 
 ```bash
-lemma-stack config set LEMMA_ANTHROPIC_API_KEY sk-ant-...
-lemma-stack config set LEMMA_OPENAI_API_KEY fw-...
+lemma-stack config set COMPOSIO_API_KEY <key>
 lemma-stack config set SECRET_ENCRYPTION_KEY <fernet-key>
-lemma-stack restart
+lemma-stack restart   # apply everything
 ```
 
 List what's set with `lemma-stack config list`, or edit the file directly with
@@ -204,4 +235,4 @@ The dev stack and the `lemma-stack` install stack run on different ports (3710/8
 - Read the [CLI overview](../lemma-cli/README.md) to build and operate pods.
 - Read the [TypeScript SDK](../lemma-typescript/README.md) to build app frontends.
 - Read the [Python SDK](../lemma-python/README.md) to write pod function code.
-- Browse the [frontend docs](http://localhost:3711/docs) for the full platform documentation.
+- Browse the [frontend docs](http://127-0-0-1.sslip.io:3711/docs) for the full platform documentation.

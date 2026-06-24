@@ -76,20 +76,27 @@ lemma daemon start            # serves pod-assigned runs via your local Claude C
 curl -fsSL https://raw.githubusercontent.com/lemma-work/lemma-platform/main/install.sh | bash
 ```
 
-This installs the `lemma-stack` tool and runs at app `http://localhost:3711`, API `http://localhost:8711` (docs at `/scalar`). Manage it with `lemma-stack start|stop|status|logs|config|uninstall`. Point the CLI at it:
+This installs the `lemma-stack` tool and runs the app at `http://127-0-0-1.sslip.io:3711` and the API at `http://127-0-0-1.sslip.io:8711` (docs at `/scalar`). Use that `127-0-0-1.sslip.io` host — it resolves to `127.0.0.1`, but sign-in is scoped to it, so `localhost` / `127.0.0.1` won't authenticate. Manage it with `lemma-stack start|stop|status|logs|config|uninstall`. Point the CLI at it:
 
 ```bash
 lemma servers select local
 lemma auth login
 ```
 
-Set model keys and backend env in `~/.lemma/local/config.toml`:
+Set model keys and backend env (stored under `[backend.env]` in `~/.lemma/local/config.toml`), then restart:
 
 ```bash
+# Required — pick a model provider (set the type + key together):
+lemma-stack config set LEMMA_DEFAULT_MODEL_TYPE anthropic_compat
 lemma-stack config set LEMMA_ANTHROPIC_API_KEY sk-ant-...
-lemma-stack config set LEMMA_OPENAI_API_KEY fw-...
+# (or openai_compat + LEMMA_OPENAI_API_KEY / _BASE_URL / _DEFAULT_MODEL / _MODEL_NAMES —
+#  works with OpenAI, Fireworks, a local server, any OpenAI-compatible endpoint)
+# Recommended — enables the app connectors / integrations:
+lemma-stack config set COMPOSIO_API_KEY <key>
 lemma-stack restart
 ```
+
+See [`docs/installation.md`](docs/installation.md#configure) for the full per-provider setup.
 
 See [`docs/installation.md`](docs/installation.md) for the full env list and setup guide.
 
