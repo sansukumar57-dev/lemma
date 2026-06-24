@@ -4,16 +4,30 @@ Lemma is the application stack for building pod-native apps, automations, agents
 workflows, files, and structured data on one API.
 
 This repository is the public release home for the full Lemma stack: backend,
-frontend, CLI, SDKs, and agent skills.
+frontend, installer, CLI, SDKs, and agent skills.
 
 | Path | Package | Version | License |
 | --- | --- | --- | --- |
 | `lemma-backend/` | FastAPI backend (server core) | — | AGPLv3 |
 | `lemma-frontend/` | Next.js frontend (operator UI + docs) | — | AGPLv3 |
+| `lemma-stack/` | `lemma-stack` local stack installer & manager | `0.1.0` | Apache-2.0 |
 | `lemma-cli/` | `lemma-terminal` on PyPI | `0.4.2` | Apache-2.0 |
 | `lemma-python/` | `lemma-sdk` on PyPI | `0.4.3` | Apache-2.0 |
 | `lemma-skills/` | Agent skills | Bundled | Apache-2.0 |
 | `lemma-typescript/` | `lemma-sdk` on npm | `0.4.1` | Apache-2.0 |
+
+## Installation
+
+See [`docs/installation.md`](docs/installation.md) for the full guide. The fast
+path:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/lemma-work/lemma-platform/main/install.sh | bash
+```
+
+This installs `lemma-stack`, which pulls the released images and starts the
+full stack (frontend, backend, Postgres, Redis, SuperTokens) at
+`http://localhost:3711` and `http://localhost:8711`.
 
 ## Quickstart
 
@@ -84,6 +98,7 @@ must release your modified source under the same terms.
 
 **Apache-2.0** (client-side developer tools):
 
+- `lemma-stack/` — local stack installer and manager
 - `lemma-cli/` — the `lemma` CLI and terminal UI
 - `lemma-python/` — the Python SDK
 - `lemma-typescript/` — the TypeScript SDK
