@@ -55,7 +55,7 @@ lemma skills install          # auto-detects Claude Code / Codex / OpenCode / Cu
 Now your agent can build and operate pods. Authenticate, create one, and start working:
 
 ```bash
-lemma auth login
+ 
 lemma pod create my-team --with-starter   # scaffolds a working starter (table + agent) and imports it
 lemma chat "what can you do in this pod?"
 ```
