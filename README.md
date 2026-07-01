@@ -13,7 +13,7 @@ Runs on your machine — or on **[lemma.work](https://lemma.work)** when you'd r
 [Quickstart](#quickstart) · [Pods](#start-from-a-pod-not-a-blank-page) · [Why Lemma](#chat-is-not-where-work-lives) · [Surfaces](#use-it-from-anywhere) · [Coding agents](#the-back-layer-for-your-coding-agents) · [Docs](https://lemma.work/docs)
 
 **Website → [lemma.work](https://lemma.work)**
-
+https://crm-app-019ef9fa.apps.lemma.work/
 </div>
 
 <!-- TODO(launch): hero GIF — the task manager queue. "Qualify the Acme lead" assigned to Lead Qualifier Agent, score column fills, a review task appears assigned to Maya, and the approval pings her phone on WhatsApp. The mixed human/agent assignee column is the shot. -->
