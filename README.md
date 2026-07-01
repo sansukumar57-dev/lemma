@@ -268,3 +268,4 @@ core genuinely open source.
 
 **Trademark:** The Lemma name, logos, and marks are trademarks of Lemma and are
 not granted by the software licenses. Fork the code, not the brand.
+# lemma
