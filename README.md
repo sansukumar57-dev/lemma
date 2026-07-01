@@ -296,3 +296,16 @@ Manage your contacts, view upcoming follow-ups, log interactions, and track rela
 View detailed contact information, recent interactions, notes, and quickly log new touchpoints.
 
 ![Contact Details](screenshots/contact-details.png)
+
+
+
+# 📸 Screenshots
+
+### Dashboard
+![Dashboard](screenshots/Screenshot%202026-07-01%20205544.png)
+
+### Contact Management
+![Contact Management](screenshots/Screenshot%202026-07-01%20205602.png)
+
+### Contact Details
+![Contact Details](screenshots/Screenshot%202026-07-01%20205639.png)
