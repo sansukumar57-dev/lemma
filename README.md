@@ -269,3 +269,30 @@ core genuinely open source.
 **Trademark:** The Lemma name, logos, and marks are trademarks of Lemma and are
 not granted by the software licenses. Fork the code, not the brand.
 # lemma
+
+
+
+
+  # 📸 Screenshots
+
+## 🏠 Dashboard
+
+The main dashboard provides an overview of your network, people requiring follow-up, weekly reminders, and AI-powered nudges.
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+## 👥 Contact Management
+
+Manage your contacts, view upcoming follow-ups, log interactions, and track relationship status.
+
+![Contact Management](screenshots/contact-management.png)
+
+---
+
+## 📝 Contact Details & Activity
+
+View detailed contact information, recent interactions, notes, and quickly log new touchpoints.
+
+![Contact Details](screenshots/contact-details.png)
