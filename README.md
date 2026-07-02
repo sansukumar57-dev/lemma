@@ -21,6 +21,7 @@ https://crm-app-019ef9fa.apps.lemma.work/
 ---
 
 ## Chat is not where work lives
+ ![image alt](https://github.com/sansukumar57-dev/lemma/blob/9147d5636fe72970b9443a772eced9d131277718/Screenshot%202026-07-01%20205544.png)
 
 AI can answer questions, draft replies, and call tools. But a chat thread is not a place where work can live.
 
