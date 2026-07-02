@@ -133,8 +133,16 @@ Everything in Lemma lives in a **pod** — a self-contained workspace for one te
 | **Apps** | The operator UI your team works from, deployed at a URL, built on the same pod APIs — a single-file HTML page (no build) or a full React app. |
 | **Surfaces** | Slack, Microsoft Teams, Gmail, Outlook, Telegram, and WhatsApp — wired to pod agents with identity resolution and conversation linking. |
 
-## Use it from anywhere
 
+
+## 📝 Contact Details & Activity
+
+View detailed contact information, recent interactions, notes, and quickly log new touchpoints.
+
+![Contact Details](sansukumar57@gmail.com)
+    
+## Use it from anywhere
+ 
 Chat is a door, not the building.
 
 A teammate approves a refund **in Slack**. A field update arrives as a **WhatsApp** voice note and lands as a structured record. An agent drafts a customer reply **in Gmail** and waits for a human before sending. The conversation is the surface — underneath, all of it reads and writes the same tables, runs through the same workflows, and respects the same permissions.
@@ -297,17 +305,8 @@ Manage your contacts, view upcoming follow-ups, log interactions, and track rela
 
 View detailed contact information, recent interactions, notes, and quickly log new touchpoints.
 
-![Contact Details](screenshots/contact-details.png)
+![Contact Details](sansukumar57@gmail.com)
 
 
 
-# 📸 Screenshots
 
-### Dashboard
-![Dashboard](screenshots/Screenshot%202026-07-01%20205544.png)
-
-### Contact Management
-![Contact Management](screenshots/Screenshot%202026-07-01%20205602.png)
-
-### Contact Details
-![Contact Details](screenshots/Screenshot%202026-07-01%20205639.png)
