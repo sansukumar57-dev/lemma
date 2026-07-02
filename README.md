@@ -23,7 +23,7 @@ https://crm-app-019ef9fa.apps.lemma.work/
 ## Chat is not where work lives
  ![image alt](https://github.com/sansukumar57-dev/lemma/blob/9147d5636fe72970b9443a772eced9d131277718/Screenshot%202026-07-01%20205544.png)
  ![image alt](https://github.com/sansukumar57-dev/lemma/blob/307b9a499e115e41e2e37c21e67bd9e3f7fb0a06/Screenshot%202026-07-01%20205602.png)
- 
+ ![image alt](https://github.com/sansukumar57-dev/lemma/blob/6f8b456a563da015257c8375cdb152612055fcbf/Screenshot%202026-07-01%20205639.png)
 AI can answer questions, draft replies, and call tools. But a chat thread is not a place where work can live.
 
 Real work runs for days or weeks. It has owners. It has state that many people and agents need to read and write. It has steps that must wait for a human decision, and actions an agent should never take alone. Today that work is either trapped in chat scrollbacks, or stitched together from a database, a workflow tool, an auth layer, a UI builder, and glue code.
